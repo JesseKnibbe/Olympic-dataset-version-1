@@ -16,8 +16,7 @@ st.markdown("The third dataset holds demographic data. It has 234 rows and 17 co
             "Can be found on: https://www.kaggle.com/datasets/tanishqdublish/world-data-population")
 
 
-# <- CHANGED: load the data only once, cached so the app stays fast
-url_1 = "https://raw.githubusercontent.com/jurre-m/Olympic-dataset-version-1/refs/heads/main/df_usable_case2.csv"
+url_1 = "df_usable_case2.csv"                               # <- CHANGED: read the csv straight from the repo, no web address needed
 
 @st.cache_data
 def load_data(url):
