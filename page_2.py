@@ -4,8 +4,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import io
-import requests
 
 st.title("Data exploration and preparation")
 
@@ -18,29 +16,68 @@ st.markdown("The third dataset holds demographic data. It has 234 rows and 17 co
             "Can be found on: https://www.kaggle.com/datasets/tanishqdublish/world-data-population")
 
 
-
-# st.header("Driving question:")
-
-# st.subheader("From our dataset we noticed that inhabitants of different countries or continents do not have equal chances to participate in the Olympic games.")
-
-
-
-
-
+# <- CHANGED: load the data only once, cached so the app stays fast
 url_1 = "https://raw.githubusercontent.com/jurre-m/Olympic-dataset-version-1/refs/heads/main/df_usable_case2.csv"
-
-df = pd.read_csv(url_1)
-
-resp = requests.get(url_1)
-resp.raise_for_status()
-df = pd.read_csv(io.StringIO(resp.text))
-
 
 @st.cache_data
 def load_data(url):
     return pd.read_csv(url)
 
 df = load_data(url_1)
-st.dataframe(df)
 
+
+# <- NEW: what happened to the rows in every step (numbers from our notebook)
+st.subheader("From raw data to a usable dataset")
+
+steps = pd.DataFrame({
+    "Step": ["Raw Olympic dataset",
+             "Winter games removed",
+             "Merged with NOC table (left join on NOC)",
+             "Rows with missing height/weight removed",
+             "Only games 1968-2016 (range of the population data)",
+             "Merged with population data (left join on year + country)",
+             "Unique athletes per games (one athlete, several events = 1)"],
+    "Rows": [70000, 58467, 58467, 58275, 39421, len(df),
+             len(df.drop_duplicates(["ID", "Year"]))],      # last two are calculated live from the csv
+})
+steps["Change"] = steps["Rows"].diff().fillna(0).astype(int)
+st.dataframe(steps, hide_index=True)
+
+
+# <- NEW: why we made these choices (rubric: every intervention argued)
+st.subheader("Choices we made")
+
+st.markdown(
+    "- **Summer games only.** Our question is about chances to participate; winter sports depend heavily on climate, "
+    "which would add a second explanation we cannot separate.\n"
+    "- **Left join with the NOC table** kept every row (58.467 before and after). Missing country names "
+    "(Singapore, Tuvalu, Refugee team, Unknown) were filled in by hand.\n"
+    "- **192 rows dropped** because height and weight could not be filled in: the sport had no known values at all. "
+    "Height and weight are not used to answer our question.\n"
+    "- **1968-2016 only**, because the population data starts in 1970. For each games we estimated the population "
+    "by linear interpolation between the measured years; 1968 gets the 1970 value.\n"
+    "- **30 rows lost in the population merge**: 24 Individual Olympic Athletes and 6 Refugee Olympic Team. "
+    "They have no country, so there is no population to compare with.\n"
+    "- **Athletes are counted once per games.** 9.646 rows are the same athlete in more events. That is not an error, "
+    "so we did not remove them from the data, but we count unique athletes in the analysis."
+)
+
+
+# <- NEW: quality checks visible in the app
+st.subheader("Quality checks")
+
+col1, col2 = st.columns(2)
+col1.metric("Fully duplicated rows", int(df.duplicated().sum()))
+col2.metric("Same athlete, more events", int(df.duplicated(["ID", "Year"]).sum()))
+
+st.markdown("Ranges of age, height and weight. Extremes are plausible: young gymnasts and swimmers, "
+            "coxswains in rowing and heavyweight lifters.")
+st.dataframe(df[["Age", "Height", "Weight"]].describe().round(1))
+
+st.caption("Note: the Kaggle dataset is a sample of about 3.000 athletes per games, "
+           "while in reality more than 10.000 take part. Shares and ratios are still comparable between years.")
+
+
+st.subheader("The final dataset")
+st.dataframe(df)
 
