@@ -8,7 +8,7 @@ st.markdown("Our hypothesis: **over time, participation in the Olympics is becom
             "If that is true, the share of athletes of every continent should move towards its share of the world population.")
 
 
-url_1 = "https://raw.githubusercontent.com/<jouw-gebruikersnaam>/Olympic-dataset-version-1/refs/heads/main/df_usable_case2.csv"
+url_1 = "df_usable_case2.csv"                               # <- CHANGED: read the csv straight from the repo, no web address needed
 
 @st.cache_data
 def load_data(url):
