@@ -59,7 +59,7 @@ st.caption(f"Selection: **{', '.join(chosen) if len(chosen) < len(continents) el
            f"{year_range[0]}-{year_range[1]}{', without host country' if exclude_host else ''}")
 
 
-# ---------------- charts
+# charts
 tab1, tab2 = st.tabs(["Over- and under-representation", "Share of athletes"])
 
 with tab1:
