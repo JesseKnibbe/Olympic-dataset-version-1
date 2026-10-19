@@ -35,6 +35,14 @@ st.markdown("**Fields we use from each dataset:**\n"
 
 st.subheader("From raw data to a usable dataset")
 
+url_1 = "df_usable_case2.csv"                               # read the csv straight from the repo
+
+@st.cache_data
+def load_data(url):
+    return pd.read_csv(url)
+
+df = load_data(url_1)
+
 steps = pd.DataFrame({
     "Step": ["Raw Olympic dataset",
              "Winter games removed",
