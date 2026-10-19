@@ -18,7 +18,6 @@ st.header("Driving question:")
 
 st.subheader("From our dataset we noticed that inhabitants of different countries or continents do not have equal chances to participate in the Olympic games.")
 
-# <- NEW: intro figure, replaces the placeholder text
 @st.cache_data
 def load_data(url):
     return pd.read_csv(url)
