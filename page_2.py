@@ -94,4 +94,5 @@ st.caption("Note: the Kaggle dataset is a sample of about 3.000 athletes per gam
 
 st.subheader("The final dataset")
 st.dataframe(df)
-st.markdown("the final dataset is also on github", "https://github.com/JesseKnibbe/Olympic-dataset-version-1/blob/main/Olympic_workbook.ipynb")
+st.markdown("The notebook with all steps is also on GitHub: "
+            "[Olympic_workbook.ipynb](https://github.com/JesseKnibbe/Olympic-dataset-version-1/blob/main/Olympic_workbook.ipynb)")
