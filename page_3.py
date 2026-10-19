@@ -8,7 +8,7 @@ st.markdown("Our hypothesis: **over time, participation in the Olympics is becom
             "If that is true, the share of athletes of every continent should move towards its share of the world population.")
 
 
-url_1 = "df_usable_case2.csv"                               # <- CHANGED: read the csv straight from the repo, no web address needed
+url_1 = "df_usable_case2.csv"                               # read the csv straight from the repo, no web address needed
 
 @st.cache_data
 def load_data(url):
@@ -21,7 +21,7 @@ years = sorted(d_all["Year"].unique())
 continents = sorted(d_all["continent_7"].unique())
 
 
-# ---------------- filters in the sidebar: every chart on this page reacts to them
+# filters in the sidebar: every chart on this page reacts to them
 with st.sidebar:
     st.header("Filters")
     year_range = st.select_slider("Games (from - to)", options=years, value=(years[0], years[-1]))
@@ -38,7 +38,7 @@ if exclude_host:
     d = d[~d["host"]]                                       # host country out of both the athletes and the population
 
 
-# ---------------- same calculation as in our notebook
+# same calculation as in our notebook
 share = pd.crosstab(d["continent_7"], d["Year"], normalize="columns") * 100     # share of athletes per continent, each year sums to 100%
 
 pop_share = (
