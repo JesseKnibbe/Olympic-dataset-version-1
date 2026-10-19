@@ -5,7 +5,7 @@ import numpy as np
 st.title("Conclusion")
 
 
-# ---------------- same data and calculations as on the hypothesis page, so the numbers below always match
+# same data and calculations as on the hypothesis page, so the numbers below always match
 @st.cache_data
 def load_data(url):
     return pd.read_csv(url)
@@ -37,7 +37,7 @@ g_with = {y: gini(t) for y, t in country_table(d).groupby("Year")}
 g_without = {y: gini(t) for y, t in country_table(d[~d["host"]]).groupby("Year")}
 
 
-# ---------------- the answer
+# the answer
 st.header("Is participation becoming more equal?")
 st.subheader("Only a little. The gap between continents is getting smaller, but the chance per inhabitant is not.")
 
@@ -48,7 +48,7 @@ col3.metric(f"Ratio Asia {last}", f"{ratio.loc['Asia', last]:.2f}",
             f"{ratio.loc['Asia', last] - ratio.loc['Asia', first]:+.2f} since {first}")
 
 
-# ---------------- what we found, step by step
+# what we found, step by step
 st.header("What we found")
 
 st.markdown(
@@ -67,7 +67,7 @@ st.markdown(
 )
 
 
-# ---------------- alternative explanation
+# alternative explanation
 st.header("Could the host country explain this?")
 st.markdown(
     f"The host country always sends extra athletes, for example Brazil in {last}. "
@@ -76,7 +76,7 @@ st.markdown(
 )
 
 
-# ---------------- answer to the hypothesis
+# answer to the hypothesis
 st.header("Our hypothesis")
 st.markdown(
     "*Over time, participation in the Olympics is becoming more equal over countries or continents.*\n\n"
@@ -85,7 +85,7 @@ st.markdown(
 )
 
 
-# ---------------- limitations: what the reader should keep in mind
+# limitations: what the reader should keep in mind
 st.header("Limitations")
 st.markdown(
     "- The Kaggle dataset is a **sample** of about 3.000 athletes per games, the real number is more than 10.000.\n"
@@ -95,7 +95,7 @@ st.markdown(
 )
 
 
-# ---------------- questions that remain
+# questions that remain
 st.header("Questions that remain")
 st.markdown(
     "- Does the **wealth** of a country (GDP per inhabitant) explain more than its continent?\n"
