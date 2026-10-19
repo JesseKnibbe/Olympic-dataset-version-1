@@ -18,18 +18,30 @@ st.header("Driving question:")
 
 st.subheader("From our dataset we noticed that inhabitants of different countries or continents do not have equal chances to participate in the Olympic games.")
 
-"""
+# <- NEW: intro figure, replaces the placeholder text
+@st.cache_data
+def load_data(url):
+    return pd.read_csv(url)
 
+df = load_data("df_usable_case2.csv")
+d16 = df[df["Year"] == 2016].drop_duplicates(["ID", "Year"])           # Rio 2016, one row per athlete
 
+athletes = d16["continent_7"].value_counts(normalize=True) * 100       # share of all athletes per continent
+population = d16.drop_duplicates("country_clean").groupby("continent_7")["pct_of_world"].sum()   # share of world population
 
-figure with unrefined participation in Olympics & demographic data from 10 random countries or something like it. 
+compare = pd.DataFrame({"Share of athletes": athletes, "Share of world population": population}).reset_index(names="Continent")
+compare_long = compare.melt(id_vars="Continent", var_name="Measure", value_name="Percentage")
 
+fig = px.bar(compare_long, x="Continent", y="Percentage", color="Measure", barmode="group",
+             pattern_shape="Measure", text_auto=".0f",
+             labels={"Percentage": "% of total"})
+fig.update_layout(title="Rio 2016: share of athletes vs share of world population")
+st.plotly_chart(fig, use_container_width=True)
 
-
-
-
-
-"""
+asia = compare.set_index("Continent").loc["Asia"]
+st.caption(f"In 2016 Asia was home to {asia['Share of world population']:.0f}% of the world population, "
+           f"but sent only {asia['Share of athletes']:.0f}% of the athletes. "
+           "In this presentation we look at whether this gap has become smaller over time.")
 
 
 
