@@ -58,7 +58,7 @@ steps["Change"] = steps["Rows"].diff().fillna(0).astype(int)
 st.dataframe(steps, hide_index=True)
 
 
-# <- NEW: why we made these choices (rubric: every intervention argued)
+
 st.subheader("Choices we made")
 
 st.markdown(
@@ -77,7 +77,7 @@ st.markdown(
 )
 
 
-# <- NEW: quality checks visible in the app
+
 st.subheader("Quality checks")
 
 col1, col2 = st.columns(2)
