@@ -12,20 +12,27 @@ st.subheader("We started with data from 3 different datasets")
 st.markdown("The first dataset holds information on participants in Olympic games. It holds 70.000 rows and 15 columns. "
             "The second dataset is mainly a key to convert Olympic country codes into corresponding country names (like 'GER' into 'Germany'). "
             "Both can be found on: https://www.kaggle.com/datasets/bhanupratapbiswas/olympic-data")
+
 st.markdown("The third dataset holds demographic data. It has 234 rows and 17 columns. "
             "Can be found on: https://www.kaggle.com/datasets/tanishqdublish/world-data-population")
 
 
-url_1 = "df_usable_case2.csv"                               # <- CHANGED: read the csv straight from the repo, no web address needed
+st.subheader("How we retrieve the data")
 
-@st.cache_data
-def load_data(url):
-    return pd.read_csv(url)
+st.markdown("All three datasets are downloaded with the **Kaggle API** (`kagglehub.dataset_download`) in our notebook, "
+            "so anyone can get exactly the same data again. The notebook then cleans and combines the datasets "
+            "and saves the result as `df_usable_case2.csv`. This app reads that file, so it stays fast. "
+            "Every step, with its output, can be checked in the notebook: "
+            "https://github.com/JesseKnibbe/Olympic-dataset-version-1/blob/main/Olympic_workbook.ipynb")
 
-df = load_data(url_1)
+st.markdown("**Fields we use from each dataset:**\n"
+            "- *dataset_olympics.csv*: ID, Sex, Age, Height, Weight, Team, NOC, Year, Season, City, Sport, Event, Medal "
+            "(the column Name is removed straight away, we do not need it)\n"
+            "- *noc_region.csv*: noc_region (key) and reg (country name)\n"
+            "- *world_population_data.csv*: country and the population in 1970, 1980, 1990, 2000, 2010, 2015 and 2020\n\n"
+            "**Joins:** Olympic data + NOC table on the NOC code, then + population on country name and year.")
 
 
-# <- NEW: what happened to the rows in every step (numbers from our notebook)
 st.subheader("From raw data to a usable dataset")
 
 steps = pd.DataFrame({
