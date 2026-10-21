@@ -60,7 +60,7 @@ st.caption(f"Selection: **{', '.join(chosen) if len(chosen) < len(continents) el
 
 
 # charts
-tab1, tab2 = st.tabs(["Over- and under-representation", "Share of athletes"])
+tab1, tab2 = st.tabs(["Share of athletes", "Over- and under-representation"])
 
 with tab1:
     st.subheader("Which continents send more or fewer athletes than their population suggests?")
