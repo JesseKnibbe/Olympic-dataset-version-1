@@ -49,7 +49,7 @@ pop_share = (
 
 ratio = share / pop_share                                   # >1 = over-represented, <1 = under-represented
 
-# plotly wants long format: one row per continent per year
+
 ratio_long = ratio.stack().rename("ratio").reset_index()
 share_long = share.stack().rename("share").reset_index()
 ratio_long = ratio_long[ratio_long["continent_7"].isin(chosen)]     # filter after calculating, so shares stay relative to the whole world
