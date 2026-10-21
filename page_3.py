@@ -62,6 +62,15 @@ st.caption(f"Selection: **{', '.join(chosen) if len(chosen) < len(continents) el
 # charts
 tab1, tab2 = st.tabs(["Share of athletes", "Over- and under-representation"])
 
+
+with tab2:
+    st.subheader("Share of all athletes per continent")
+    fig = px.line(share_long, x="Year", y="share", color="continent_7", symbol="continent_7", markers=True,
+                  labels={"Year": "Games", "share": "Share of athletes (%)", "continent_7": "Continent"})
+    st.plotly_chart(fig, use_container_width=True)
+    st.caption("This is the share of all athletes, without correcting for population. "
+               "Compare with the first tab: a big share can still be fair if the continent has many inhabitants.")
+
 with tab1:
     st.subheader("Which continents send more or fewer athletes than their population suggests?")
     fig = px.line(ratio_long, x="Year", y="ratio", color="continent_7", symbol="continent_7", markers=True,
@@ -72,11 +81,3 @@ with tab1:
     st.caption("Above the dashed line a continent sends more athletes than its population suggests, below it fewer. "
                "The axis is logarithmic, so 2x too many is as far from the line as 2x too few. "
                "If our hypothesis is right, the lines move towards 1 over time.")
-
-with tab2:
-    st.subheader("Share of all athletes per continent")
-    fig = px.line(share_long, x="Year", y="share", color="continent_7", symbol="continent_7", markers=True,
-                  labels={"Year": "Games", "share": "Share of athletes (%)", "continent_7": "Continent"})
-    st.plotly_chart(fig, use_container_width=True)
-    st.caption("This is the share of all athletes, without correcting for population. "
-               "Compare with the first tab: a big share can still be fair if the continent has many inhabitants.")
